@@ -6,15 +6,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Balance;
 
-class HomeController extends Controller
+class BalanceController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $balance = Balance::first();
-        return view('page.home', compact('balance'));
+        //
     }
 
     /**
@@ -30,7 +29,10 @@ class HomeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Balance::create([
+            'amount' => 0,
+        ]);
+        return redirect('/');
     }
 
     /**

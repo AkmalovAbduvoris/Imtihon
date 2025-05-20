@@ -1,12 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Transaction Form</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-</head>
-<body>
+@extends('home')
+@section('content')
     @if ($errors->has('amount'))
     <div class="alert alert-danger">
         {{ $errors->first('amount') }}
@@ -30,6 +23,7 @@
         <input
           type="number"
           min="0"
+          maxlength="10"
           class="form-control"
           id="amount"
           name="amount"
@@ -53,5 +47,4 @@
       <button type="submit" class="btn btn-primary">Save Transaction</button>
     </form>
   </div>
-</body>
-</html>
+@endsection
