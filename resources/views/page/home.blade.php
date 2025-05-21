@@ -7,15 +7,15 @@
         <h2 style="fw-bold text-success mb-3">
             {{ $balance->amount }}
         </h2>
+        <a href="/transactions/create" class="btn btn-success mb-3">Add Transaction</a>
         @else
-        <div style="text-align: center; margin-top: 20%;">
+        <div style="text-align: center; margin: 20px 0;">
             <form action="/balance" method="POST">
                 @csrf
                 <button>Create Balance</button>
             </form>
         </div>
         @endif
-        <a href="/transactions/create" class="btn btn-success mb-3">Add Transaction</a>
         <a href="/transactions" class="btn btn-outline-primary">View All Transactions</a>
     </div>
 </div>

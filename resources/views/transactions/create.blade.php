@@ -29,6 +29,8 @@
                                 <option value="" disabled {{ old('type') ? '' : 'selected' }}>Choose...</option>
                                 <option value="income" {{ old('type') == 'income' ? 'selected' : '' }}>Income</option>
                                 <option value="expense" {{ old('type') == 'expense' ? 'selected' : '' }}>Expense</option>
+                                <option value="debt_in" {{ old('type') == 'debt_in' ? 'selected' : '' }}>Debt In (Qarz Olish)</option>
+                                <option value="debt_out" {{ old('type') == 'debt_out' ? 'selected' : '' }}>Debt Out (Qarz To‘lash)</option>
                             </select>
                         </div>
 

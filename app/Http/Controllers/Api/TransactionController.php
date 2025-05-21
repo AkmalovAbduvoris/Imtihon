@@ -1,50 +1,50 @@
 <?php
 
-namespace App\Http\Controllers\Web;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Balance;
 use App\Models\Transaction;
-use Carbon\Carbon;
+use App\Models\Balance;
 
 class TransactionController extends Controller
 {
-
-    public function index(Request $request)
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
     {
-        $filter = $request->query('filter');
+        $filter = request()->query('filter');
 
         $query = Transaction::orderBy('transaction_date', 'desc');
 
         if ($filter) {
             switch ($filter) {
                 case 'day':
-                    $query->where('transaction_date', '>=', Carbon::now()->subDay());
+                    $query->where('transaction_date', '>=', now()->subDay());
                     break;
                 case 'week':
-                    $query->where('transaction_date', '>=', Carbon::now()->subWeek());
+                    $query->where('transaction_date', '>=', now()->subWeek());
                     break;
                 case 'month':
-                    $query->where('transaction_date', '>=', Carbon::now()->subMonth());
+                    $query->where('transaction_date', '>=', now()->subMonth());
                     break;
                 case 'year':
-                    $query->where('transaction_date', '>=', Carbon::now()->subYear());
+                    $query->where('transaction_date', '>=', now()->subYear());
                     break;
             }
         }
-
         $transactions = $query->get();
 
-        return view('transactions.index', compact('transactions', 'filter'));
-}
+        return response()->json($transactions);
+    }
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        return view('transactions.create');
+        //
     }
 
     /**
@@ -61,7 +61,9 @@ class TransactionController extends Controller
         $balance = Balance::first();
 
         if ($request->type === 'expense' && $balance->amount < $request->amount) {
-            return redirect()->back()->withErrors(['amount' => 'Insufficient balance for this transaction.']);
+            return response()->json([
+                'message' => 'Insufficient balance',
+            ], 422);
         }
 
         Transaction::create($request->all());
@@ -74,9 +76,10 @@ class TransactionController extends Controller
 
         $balance->save();
 
-        return redirect()->route('home');
+        return response()->json([
+            'message' => 'Transaction created successfully',
+        ], 201);
     }
-
 
     /**
      * Display the specified resource.
