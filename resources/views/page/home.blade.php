@@ -1,31 +1,22 @@
 @extends('home')
 @section('content')
-@if ($balance)
-    <h1 style="text-align: center; margin-top: 20%;">
-        {{ $balance->amount }}
-    </h1>
-@else
-    <div style="text-align: center; margin-top: 20%;">
-        <form action="/balance" method="POST">
-            @csrf
-            <button>
-                Create Balance
-            </button>
-        </form>
+<div class="container d-flex flex-column align-items-center justify-content-center" style="min-height: 80vh;">
+    <div class="card text-center p-4 shadow-sm" style="width: 320px;">
+        <h5 class="card-title">Current Balance</h5>
+        @if ($balance)
+        <h2 style="fw-bold text-success mb-3">
+            {{ $balance->amount }}
+        </h2>
+        @else
+        <div style="text-align: center; margin-top: 20%;">
+            <form action="/balance" method="POST">
+                @csrf
+                <button>Create Balance</button>
+            </form>
+        </div>
+        @endif
+        <a href="/transactions/create" class="btn btn-success mb-3">Add Transaction</a>
+        <a href="/transactions" class="btn btn-outline-primary">View All Transactions</a>
     </div>
-@endif
-    <div style="text-align: center;">
-        <a href="/transactions/create">
-            <button style="cursor: pointer; font-size: 24px; padding: 10px 20px; background-color: #28a745; color: white; border: none; border-radius: 8px;">
-                +
-            </button>
-        </a>
-    </div>
-    <div style="text-align: center; margin-top: 20px;">
-        <a href="/transactions">
-            <button style="cursor: pointer; font-size: 24px; padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 8px;">
-                Transactions
-            </button>
-        </a>
-    </div>
+</div>
 @endsection

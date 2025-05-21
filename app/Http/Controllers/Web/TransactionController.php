@@ -10,36 +10,34 @@ use Carbon\Carbon;
 
 class TransactionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index(Request $request)
-{
-    $filter = $request->query('filter');
+    {
+        $filter = $request->query('filter');
 
-    $query = Transaction::orderBy('transaction_date', 'desc');
+        $query = Transaction::orderBy('transaction_date', 'desc');
 
-    if ($filter) {
-        switch ($filter) {
-            case 'day':
-                $query->where('transaction_date', '>=', Carbon::now()->subDay());
-                break;
-            case 'week':
-                $query->where('transaction_date', '>=', Carbon::now()->subWeek());
-                break;
-            case 'month':
-                $query->where('transaction_date', '>=', Carbon::now()->subMonth());
-                break;
-            case 'year':
-                $query->where('transaction_date', '>=', Carbon::now()->subYear());
-                break;
+        if ($filter) {
+            switch ($filter) {
+                case 'day':
+                    $query->where('transaction_date', '>=', Carbon::now()->subDay());
+                    break;
+                case 'week':
+                    $query->where('transaction_date', '>=', Carbon::now()->subWeek());
+                    break;
+                case 'month':
+                    $query->where('transaction_date', '>=', Carbon::now()->subMonth());
+                    break;
+                case 'year':
+                    $query->where('transaction_date', '>=', Carbon::now()->subYear());
+                    break;
+            }
         }
-    }
 
-    $transactions = $query->get();
-    $balance = Balance::first();
+        $transactions = $query->get();
+        $balance = Balance::first();
 
-    return view('transactions.index', compact('transactions', 'balance', 'filter'));
+        return view('transactions.index', compact('transactions', 'balance', 'filter'));
 }
 
     /**
@@ -61,21 +59,28 @@ class TransactionController extends Controller
             'description' => 'nullable|string|max:255',
         ]);
 
-        $transaction = Transaction::create($request->all());
-
         $balance = Balance::first();
-        if ($transaction->type === 'income') {
-            $balance->amount += $transaction->amount;
-        } elseif ($transaction->type === 'expense' && $balance->amount >= $transaction->amount) {
-            $balance->amount -= $transaction->amount;
-        }else
-        {
+
+        // Harajat bo‘lsa — mablag‘ yetarliligini tekshir
+        if ($request->type === 'expense' && $balance->amount < $request->amount) {
             return redirect()->back()->withErrors(['amount' => 'Insufficient balance for this transaction.']);
         }
-        $balance->save();
-        return redirect()->route('home');
 
+        // Tranzaksiyani yozish
+        $transaction = Transaction::create($request->all());
+
+        // Balansni yangilash
+        if ($request->type === 'income') {
+            $balance->amount += $request->amount;
+        } else {
+            $balance->amount -= $request->amount;
+        }
+
+        $balance->save();
+
+        return redirect()->route('home');
     }
+
 
     /**
      * Display the specified resource.
