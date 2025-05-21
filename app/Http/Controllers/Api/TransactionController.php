@@ -16,7 +16,9 @@ class TransactionController extends Controller
     {
         $filter = request()->query('filter');
 
+        
         $query = Transaction::orderBy('transaction_date', 'desc');
+
 
         if ($filter) {
             switch ($filter) {
