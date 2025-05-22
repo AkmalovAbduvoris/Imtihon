@@ -6,52 +6,24 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Transaction;
 use App\Models\Balance;
+use App\Http\Controllers\Services\TransactionController as ServicesTransactionController;
 
 class TransactionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         $filter = request()->query('filter');
 
-        
-        $query = Transaction::orderBy('transaction_date', 'desc');
-
-
-        if ($filter) {
-            switch ($filter) {
-                case 'day':
-                    $query->where('transaction_date', '>=', now()->subDay());
-                    break;
-                case 'week':
-                    $query->where('transaction_date', '>=', now()->subWeek());
-                    break;
-                case 'month':
-                    $query->where('transaction_date', '>=', now()->subMonth());
-                    break;
-                case 'year':
-                    $query->where('transaction_date', '>=', now()->subYear());
-                    break;
-            }
-        }
-        $transactions = $query->get();
+        $transactions = ServicesTransactionController::index($filter);
 
         return response()->json($transactions);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -83,35 +55,19 @@ class TransactionController extends Controller
         ], 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
-        //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
     }
 }

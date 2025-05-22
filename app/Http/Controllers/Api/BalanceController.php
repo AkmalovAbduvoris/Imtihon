@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Balance;
+use App\Http\Controllers\Services\BalanceController as ServicesBalanceController;
 
 class BalanceController extends Controller
 {
@@ -31,9 +32,7 @@ class BalanceController extends Controller
      */
     public function store(Request $request)
     {
-        Balance::create([
-            'amount' => 0,
-        ]);
+        ServicesBalanceController::store();
 
         return response()->json([
             'message' => 'Balance created successfully',
