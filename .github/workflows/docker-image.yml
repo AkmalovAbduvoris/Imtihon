@@ -4,15 +4,16 @@ on:
   push:
     branches:
       - main
+
 jobs:
   deploy:
     name: Deploy to Server
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout Code
       uses: actions/checkout@v4
-      
+
     - name: Setup SSH
       run: |
         mkdir -p ~/.ssh
@@ -20,7 +21,7 @@ jobs:
         chmod 600 ~/.ssh/id_rsa
         echo -e "Host *\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 
-    - name: Deplay via SSH
+    - name: Deploy via SSH
       run: |
         ssh root@185.191.141.44 << 'EOF'
           cd /var/www/Imtihon/
@@ -32,6 +33,8 @@ jobs:
           docker exec imtihon-app php artisan cache:clear
           docker exec imtihon-app php artisan config:cache
           docker exec imtihon-app php artisan optimize
+        EOF
+
     - name: Telegramga xabar yuborish
       env:
         TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
@@ -43,5 +46,3 @@ jobs:
           -d chat_id="$TELEGRAM_CHAT_ID" \
           -d text="🚀 *Deploy muvaffaqiyatli!*%0A👤 *Muallif:* $COMMIT_AUTHOR%0A💬 *Xabar:* $COMMIT_MESSAGE" \
           -d parse_mode=Markdown
-        EOF
-    

@@ -3,7 +3,6 @@
 @section('content')
 <div class="container py-4">
 
-    <!-- Filter Form -->
     <form method="GET" action="{{ route('transactions.index') }}" class="row g-3 align-items-center mb-4">
         <div class="col-auto">
             <label for="filter" class="col-form-label fw-semibold">Filter:</label>
@@ -18,10 +17,36 @@
             </select>
         </div>
     </form>
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card border-primary shadow-sm">
+                <div class="card-header bg-primary text-white fw-semibold">
+                    Total Expenses
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        ${{ number_format($transactions->where('type', 'expense')->sum('amount'), 2) }}
+                    </h5>
+                    <p class="card-text">Total expenses for the selected period.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card border-success shadow-sm">
+                <div class="card-header bg-success text-white fw-semibold">
+                    Total Incomes
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        ${{ number_format($transactions->where('type', 'income')->sum('amount'), 2) }}
+                    </h5>
+                    <p class="card-text">Total incomes for the selected period.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <!-- Transactions List -->
     <div class="row">
-        <!-- Expenses -->
         <div class="col-md-6 mb-4">
             <div class="card border-danger shadow-sm">
                 <div class="card-header bg-danger text-white fw-semibold">
@@ -44,7 +69,6 @@
                 </ul>
             </div>
         </div>
-
         <div class="col-md-6 mb-4">
             <div class="card border-success shadow-sm">
                 <div class="card-header bg-success text-white fw-semibold">

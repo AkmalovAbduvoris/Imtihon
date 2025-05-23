@@ -27,29 +27,22 @@ class TransactionController extends Controller
 
     public function store(Request $request)
     {
-    $result = ServicesTransactionController::store($request);
+        $result = ServicesTransactionController::store($request);
 
-    if ($result !== true) {
-        return redirect()->back()->withErrors(['amount' => $result]);
+        if ($result !== true) {
+            return redirect()->back()->withErrors(['amount' => $result]);
+        }
+
+        return redirect()->route('home');
     }
 
-    return redirect()->route('home');
-    }
 
+    public function show(string $id) {}
 
-    public function show(string $id)
-    {
-    }
+    public function edit(string $id) {}
 
-    public function edit(string $id)
-    {
-    }
+    public function update(Request $request, string $id) {}
 
-    public function update(Request $request, string $id)
-    {
-    }
+    public function destroy(string $id) {}
 
-    public function destroy(string $id)
-    {
-    }
 }
