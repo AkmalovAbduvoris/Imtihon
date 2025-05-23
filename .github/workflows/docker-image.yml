@@ -33,16 +33,5 @@ jobs:
           docker exec imtihon-app php artisan cache:clear
           docker exec imtihon-app php artisan config:cache
           docker exec imtihon-app php artisan optimize
+          docker exec imtihon-app php artisan telegram:notify
         EOF
-
-    - name: Telegramga xabar yuborish
-      env:
-        TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-      run: |
-        COMMIT_MESSAGE=$(git log -1 --pretty=%B)
-        COMMIT_AUTHOR=$(git log -1 --pretty="%an")
-        curl -s -X POST https://api.telegram.org/bot$TELEGRAM_TOKEN/sendMessage \
-          -d chat_id="$TELEGRAM_CHAT_ID" \
-          -d text="🚀 *Deploy muvaffaqiyatli!*%0A👤 *Muallif:* $COMMIT_AUTHOR%0A💬 *Xabar:* $COMMIT_MESSAGE" \
-          -d parse_mode=Markdown
