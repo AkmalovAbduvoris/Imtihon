@@ -15,13 +15,14 @@ class TelegramService
         $this->chatId = config('services.telegram.chat_id');
     }
 
-    public function sendMessage(string $text): bool
+    public function sendGif(string $gifUrl, ?string $caption = null): bool
     {
-        $url = "https://api.telegram.org/bot{$this->token}/sendMessage";
+        $url = "https://api.telegram.org/bot{$this->token}/sendAnimation";
 
         $response = Http::post($url, [
             'chat_id' => $this->chatId,
-            'text' => $text,
+            'animation' => $gifUrl,
+            'caption' => $caption,
             'parse_mode' => 'Markdown',
         ]);
 
