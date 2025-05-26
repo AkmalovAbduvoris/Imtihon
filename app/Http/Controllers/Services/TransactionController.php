@@ -36,7 +36,7 @@ class TransactionController extends Controller
     {
         $request->validate([
             'type' => 'required|in:income,expense',
-            'amount' => 'required|numeric|min:0|max:999999.99',
+            'amount' => 'required|numeric|min:1|max:999999.99',
             'description' => 'nullable|string|max:255',
         ]);
 

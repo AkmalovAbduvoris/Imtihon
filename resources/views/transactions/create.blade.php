@@ -7,7 +7,7 @@
 
             <div class="card shadow-sm border-0">
                 <div class="card-body">
-                    <h3 class="card-title mb-4 text-center fw-semibold">Add New Transaction</h3>
+                    <h3 class="card-title mb-4 text-center fw-semibold">{{ __('messages.transactions_create.title') }}</h3>
 
                     @if ($errors->any())
                         <div class="alert alert-danger">
@@ -24,26 +24,26 @@
 
                         <!-- Type -->
                         <div class="mb-3">
-                            <label for="type" class="form-label">Transaction Type</label>
+                            <label for="type" class="form-label">{{ __('messages.transactions_create.type') }}</label>
                             <select class="form-select" id="type" name="type" required>
-                                <option value="" disabled {{ old('type') ? '' : 'selected' }}>Choose...</option>
-                                <option value="income" {{ old('type') == 'income' ? 'selected' : '' }}>Income</option>
-                                <option value="expense" {{ old('type') == 'expense' ? 'selected' : '' }}>Expense</option>
-                                <option value="debt_in" {{ old('type') == 'debt_in' ? 'selected' : '' }}>Debt In (Qarz Olish)</option>
-                                <option value="debt_out" {{ old('type') == 'debt_out' ? 'selected' : '' }}>Debt Out (Qarz To‘lash)</option>
+                                <option value="" disabled {{ old('type') ? '' : 'selected' }}>{{ __('messages.transactions_create.options.choose') }}</option>
+                                <option value="income" {{ old('type') == 'income' ? 'selected' : '' }}>{{ __('messages.transactions_create.options.income') }}</option>
+                                <option value="expense" {{ old('type') == 'expense' ? 'selected' : '' }}>{{ __('messages.transactions_create.options.expense') }}</option>
+                                {{-- <option value="debt_in" {{ old('type') == 'debt_in' ? 'selected' : '' }}>Debt In (Qarz Olish)</option> --}}
+                                {{-- <option value="debt_out" {{ old('type') == 'debt_out' ? 'selected' : '' }}>Debt Out (Qarz To‘lash)</option> --}}
                             </select>
                         </div>
 
                         <!-- Amount -->
                         <div class="mb-3">
-                            <label for="amount" class="form-label">Amount</label>
+                            <label for="amount" class="form-label">{{ __('messages.transactions_create.amount') }}</label>
                             <input
                                 type="number"
-                                min="0"
+                                min="1"
                                 class="form-control @error('amount') is-invalid @enderror"
                                 id="amount"
                                 name="amount"
-                                placeholder="Enter amount"
+                                placeholder="{{ __('messages.transactions_create.placeholder_amount') }}"
                                 value="{{ old('amount') }}"
                                 required
                             >
@@ -56,20 +56,20 @@
 
                         <!-- Description -->
                         <div class="mb-3">
-                            <label for="description" class="form-label">Description</label>
+                            <label for="description" class="form-label">{{ __('messages.transactions_create.description') }}</label>
                             <textarea
                                 class="form-control"
                                 id="description"
                                 name="description"
                                 rows="3"
-                                placeholder="Add a description (optional)"
+                                placeholder="{{ __('messages.transactions_create.placeholder_description') }}"
                             >{{ old('description') }}</textarea>
                         </div>
 
                         <!-- Submit -->
                         <div class="d-grid">
                             <button type="submit" class="btn btn-primary">
-                                Save Transaction
+                                {{ __('messages.transactions_create.submit') }}
                             </button>
                         </div>
                     </form>

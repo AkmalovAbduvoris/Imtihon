@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LocaleController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Web\TransactionController;
@@ -10,3 +11,5 @@ Route::post('/balance', [BalanceController::class, 'store'])->name('balance.stor
 Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
 Route::post('/transactions', [TransactionController::class, 'store'])->name('transactions.store');
 Route::get('/transactions/create', [TransactionController::class, 'create'])->name('transactions.create');
+
+Route::get('locale/{lang}', [LocaleController::class, 'setLocale']);
