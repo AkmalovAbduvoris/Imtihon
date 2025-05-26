@@ -38,6 +38,16 @@ class TransactionController extends Controller
             'type' => 'required|in:income,expense',
             'amount' => 'required|numeric|min:1|max:999999.99',
             'description' => 'nullable|string|max:255',
+        ],
+        [
+            'type.required' => "Transaction type is required.",
+            'type.in' => 'Transaction type must be either income or expense.',
+            'amount.required' => 'Amount is required.',
+            'amount.numeric' => 'Amount must be a number.',
+            'amount.min' => 'Amount must be at least 1.',
+            'amount.max' => 'Amount cannot exceed 999999.99.',
+            'description.string' => 'Description must be a string.',
+            'description.max' => 'Description cannot exceed 255 characters.',
         ]);
 
         $balance = Balance::first();

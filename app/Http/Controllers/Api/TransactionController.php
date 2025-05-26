@@ -26,33 +26,22 @@ class TransactionController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'type' => 'required|in:income,expense',
-            'amount' => 'required|numeric|min:0|max:999999.99',
-            'description' => 'nullable|string|max:255',
-        ]);
-
-        $balance = Balance::first();
-
-        if ($request->type === 'expense' && $balance->amount < $request->amount) {
+        $result = ServicesTransactionController::store($request);
+        if (is_string($result)) {
             return response()->json([
-                'message' => 'Insufficient balance',
+                'message' => $result,
             ], 422);
         }
-
-        Transaction::create($request->all());
-
-        if ($request->type === 'income') {
-            $balance->amount += $request->amount;
-        } else {
-            $balance->amount -= $request->amount;
+        if ($result === false) {
+            return response()->json([
+                'message' => 'Transaction could not be created',
+            ], 500);
         }
-
-        $balance->save();
-
-        return response()->json([
-            'message' => 'Transaction created successfully',
-        ], 201);
+        if ($result === true) {
+            return response()->json([
+                'message' => 'Transaction created successfully',
+            ], 201);
+        }
     }
 
     public function show(string $id)
